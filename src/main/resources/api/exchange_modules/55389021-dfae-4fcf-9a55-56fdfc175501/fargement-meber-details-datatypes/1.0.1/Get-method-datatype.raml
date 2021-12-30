@@ -1,0 +1,87 @@
+#%RAML 1.0 DataType
+
+type: object
+properties:
+                firstName:
+                  type: string
+                  required: true
+                  example: "jhon"
+                lastName:
+                  type: string
+                  required: false
+                  example: "V"
+                maritalStatus:
+                  type: string
+                  required: false
+                  enum:
+                    - signal
+                    - married
+                  example: "signal"
+                title:
+                  type: string
+                  required: true
+                  enum:
+                    - mr
+                    - mrs
+                  example: "mr"
+                gender:
+                  type: string
+                  required: true
+                  enum:
+                    - male
+                    - female
+                  example: "male"
+                occupation:
+                  type: string
+                  required: false
+                  example: "tester"
+                registrationChannel:
+                  type: string
+                  required: true
+                  example: "WFC_FR"
+                preferredName:
+                  required: true
+                  type: string
+                  example: "jack"
+                identity:
+                  type: object
+                  properties:
+                    password:
+                      type: string
+                      required: true
+                      example: "werty"
+                    phoneCountry:
+                      type: string
+                      required: true
+                      example: "+91"
+                    phoneNumber:
+                      type: string
+                      required: true
+                      example: "9087456798"
+                    email:
+                      type: string
+                      required: true
+                      example: "vrdf@mnfd.com"
+                address:
+                  type: object
+                  properties:
+                    country:
+                      type: string
+                      required: true
+                      example: "India"
+                    city:
+                      type: string
+                      required: true
+                      example: "ongole"
+                    area:
+                      type: string
+                      required: true
+                      example: "mk donka"
+                    province:
+                      required: true
+                      type: string
+                      example: "near rk food court"
+                    placeOfResidence:
+                      required: true
+                      type: string
+                      example: "h-no-12345"

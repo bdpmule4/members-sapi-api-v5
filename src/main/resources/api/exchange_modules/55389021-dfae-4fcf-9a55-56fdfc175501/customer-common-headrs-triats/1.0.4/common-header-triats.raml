@@ -1,0 +1,31 @@
+#%RAML 1.0 Trait
+
+headers:
+  X-Cms-TransactionId:
+          type: string
+          required: true
+          maxLength: 10
+          minLength: 4
+  X-Cms-Channel:
+          type: string
+          required: true
+          enum:
+            - Mobile
+            - WebAPI
+          example: "Mobile"
+  X-Cms-OriginLanguage:
+          required: true
+          type: string
+          enum:
+            - EN
+            - tel
+            - hindi
+          example: "EN"
+  X-Cms-OriginMarket:
+          type: string
+          required: true
+          enum:
+            - India
+            - UK
+            - USA
+          example: "India"

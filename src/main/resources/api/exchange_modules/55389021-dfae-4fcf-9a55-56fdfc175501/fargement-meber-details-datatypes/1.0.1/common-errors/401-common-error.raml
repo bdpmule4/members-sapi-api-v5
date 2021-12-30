@@ -1,0 +1,31 @@
+#%RAML 1.0 DataType
+
+type: object
+properties:
+                msg:
+                  type: string
+                  required: true
+                  example: "failed operation"
+                code:
+                  type: number
+                  required: true
+                  example: 401
+                success:
+                  type: boolean
+                  required: true
+                  example: false
+                error:
+                  type: object
+                  properties:
+                    type:
+                      required: true
+                      type: string
+                      example: "UNAUTHORIZED"
+                    title:
+                      type: string
+                      required: true
+                      example: "Unauthorized"
+                    details:
+                      type: string
+                      required: true
+                      example: "This endpoint requires all requests to be authenticated"

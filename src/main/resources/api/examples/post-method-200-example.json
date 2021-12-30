@@ -1,0 +1,8 @@
+{
+  "msg": "successful operation",
+  "code": 200,
+  "data": {
+    "memberId": "mn345"
+  },
+  "success": "true"
+}

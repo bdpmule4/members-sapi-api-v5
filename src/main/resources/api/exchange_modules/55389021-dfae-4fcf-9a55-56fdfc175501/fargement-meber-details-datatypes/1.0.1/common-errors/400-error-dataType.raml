@@ -1,0 +1,31 @@
+#%RAML 1.0 DataType
+
+type: object
+properties:
+                msg:
+                  type: string
+                  required: true
+                  example: "failed operation"
+                code:
+                  type: number
+                  required: true
+                  example: 400
+                success:
+                  type: boolean
+                  required: true
+                  example: false
+                error:
+                  type: object
+                  properties:
+                    type:
+                      required: true
+                      type: string
+                      example: "BAD_REQUEST"
+                    title:
+                      type: string
+                      required: true
+                      example: "Invalid Request"
+                    details:
+                      type: string
+                      required: true
+                      example: "The input contains invalid data"

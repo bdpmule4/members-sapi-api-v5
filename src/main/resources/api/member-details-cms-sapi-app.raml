@@ -1,0 +1,218 @@
+#%RAML 1.0
+title: member-details-cms-sapi-APP
+description: This API will fetchmember details.
+
+traits:
+  common: !include exchange_modules/55389021-dfae-4fcf-9a55-56fdfc175501/customer-common-headrs-triats/1.0.4/common-header-triats.raml
+  client-inforcement: !include exchange_modules/55389021-dfae-4fcf-9a55-56fdfc175501/customer-common-headrs-triats/1.0.4/clientId-Enforcement-trait.raml
+  jwt-token: !include exchange_modules/55389021-dfae-4fcf-9a55-56fdfc175501/customer-common-headrs-triats/1.0.4/Jwt-token-Authentication-trait.raml
+  queryParams: !include exchange_modules/55389021-dfae-4fcf-9a55-56fdfc175501/customer-common-headrs-triats/1.0.4/queryParams-Memebrs-getmethod.raml
+
+types:
+  400-error-datatype: !include exchange_modules/55389021-dfae-4fcf-9a55-56fdfc175501/fargement-meber-details-datatypes/1.0.1/common-errors/400-error-dataType.raml
+  401-error-datatype: !include exchange_modules/55389021-dfae-4fcf-9a55-56fdfc175501/fargement-meber-details-datatypes/1.0.1/common-errors/401-common-error.raml
+  404-error-datatype: !include exchange_modules/55389021-dfae-4fcf-9a55-56fdfc175501/fargement-meber-details-datatypes/1.0.1/common-errors/404-common-error.raml
+  500-error-datatype: !include exchange_modules/55389021-dfae-4fcf-9a55-56fdfc175501/fargement-meber-details-datatypes/1.0.1/common-errors/500-common-error.raml
+  get-method: !include exchange_modules/55389021-dfae-4fcf-9a55-56fdfc175501/fargement-meber-details-datatypes/1.0.1/Get-method-datatype.raml
+  post-method: !include exchange_modules/55389021-dfae-4fcf-9a55-56fdfc175501/fargement-meber-details-datatypes/1.0.1/post-method-dataType.raml
+
+/members:
+  /{members}:
+    patch:
+      is:
+        - common
+        - client-inforcement
+      body:
+        application/json:
+          type: get-method
+          example: !include examples/get-method-200-example.json
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/post-method-200-example.json
+        400:
+          body:
+            application/json:
+              type: 400-error-datatype
+              example: !include examples/400-error-example.json
+        401:
+          body:
+            application/json:
+              type: 401-error-datatype
+              example: !include examples/404-error-example.json
+        500:
+          body:
+            application/json:
+              type: 500-error-datatype
+              example: !include examples/500-error-example.json
+    get:
+      is:
+        - common
+        - client-inforcement
+        - jwt-token
+      responses:
+        200:
+          body:
+            application/json:
+              type: get-method
+              example: !include examples/get-method-200-example.json
+        400:
+          body:
+            application/json:
+              type: 400-error-datatype
+              example: !include examples/400-error-example.json
+        401:
+          body:
+            application/json:
+              type: 401-error-datatype
+              example: !include examples/401-error-example.json
+        404:
+          body:
+            application/json:
+              type: 404-error-datatype
+              example: !include examples/404-error-example.json
+        500:
+          body:
+            application/json:
+              type: 500-error-datatype
+              example: !include examples/500-error-example.json
+  post:
+    is:
+      - common
+      - client-inforcement
+    body:
+      application/json:
+        type: get-method
+        example: !include examples/get-method-200-example.json
+    responses:
+      200:
+        body:
+          application/json:
+            type: post-method
+            example: !include examples/post-method-200-example.json
+      400:
+       body:
+        application/json:
+          type: 400-error-datatype
+          example: !include examples/400-error-example.json
+      401:
+        body:
+          application/json:
+            type: 401-error-datatype
+            example: !include examples/401-error-example.json
+      404:
+        body:
+          application/json:
+            type: 404-error-datatype
+            example: !include examples/404-error-example.json
+      500:
+        body:
+          application/json:
+            type: 500-error-datatype
+            example: !include examples/500-error-example.json
+  get:
+    is:
+      - common
+      - client-inforcement
+      - queryParams
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              membersList:
+                type: array
+                items:
+                  type: get-method
+                  example: !include examples/get-method-200-example.json
+      400:
+        body:
+          application/json:
+            type: 400-error-datatype
+            example: !include examples/400-error-example.json
+      401:
+        body:
+          application/json:
+            type: 401-error-datatype
+            example: !include examples/401-error-example.json
+      404:
+        body:
+          application/json:
+            type: 404-error-datatype
+            example: !include examples/404-error-example.json
+      500:
+        body:
+          application/json:
+            type: 500-error-datatype
+            example: !include examples/500-error-example.json
+  /sync:
+    post:
+      is:
+        - common
+        - client-inforcement
+      body:
+        application/json:
+          type: get-method
+          example: !include examples/get-method-200-example.json
+      responses:
+        200:
+          body:
+            application/json:
+              type: post-method
+              example: !include examples/post-method-200-example.json
+        400:
+          body:
+            application/json:
+              type: 400-error-datatype
+              example: !include examples/400-error-example.json
+        401:
+          body:
+            application/json:
+              type: 401-error-datatype
+              example: !include examples/401-error-example.json
+        404:
+          body:
+            application/json:
+              type: 404-error-datatype
+              example: !include examples/500-error-example.json
+        500:
+          body:
+            application/json:
+              type: 500-error-datatype
+              example: !include examples/500-error-example.json
+                
+                
+
+                
+                
+                
+            
+              
+              
+              
+              
+
+                  
+
+              
+              
+              
+            
+               
+          
+                    
+                
+                
+                
+                
+                
+                          
+                
+                
+                
+                
+            
+
+      
