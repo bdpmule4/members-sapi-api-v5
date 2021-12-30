@@ -19,17 +19,29 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.0.0</version>
-			</plugin>
-			<plugin>
+				<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
-				<version>${mule.maven.plugin.version}</version>
-				<extensions>true</extensions>
-			</plugin>
+				<version>3.3.5</version>
+				</plugin>
+			<plugin>
+   <groupId>org.mule.tools.maven</groupId>
+   <artifactId>mule-maven-plugin</artifactId>
+   <version>3.3.5</version>
+   <extensions>true</extensions>
+   <configuration>
+      <cloudHubDeployment>
+         <username>${username}</username>
+         <password>${password}</password>         
+         <workers>${workers}</workers>
+         <workerType>${worker.type}</workerType>
+         <environment>${environment}</environment>
+         <muleVersion>${mule.version}</muleVersion>
+         <applicationName>${application.name}</applicationName>
+		 <objectStoreV2>true</objectStoreV2>
+      </cloudHubDeployment>
+   </configuration>
+</plugin>
 		</plugins>
 	</build>
 
