@@ -152,13 +152,26 @@ output application/json
 output application/json
 ---
 {
-  msg: "failed operation",
-  code: 400,
-  success: false,
-  error: {
-    "type": "BAD_REQUEST",
-    title: "Invalid Request",
-    details: "The input contains invalid data"
+  firstName: "sghfg",
+  lastName: "fgdf",
+  maritalStatus: "married",
+  title: "mr",
+  occupation: "empty",
+  gender: "male",
+  preferredName: "bvd",
+  registrationChannel: "WFC_ER",
+  identity: {
+    password: "paee",
+    email: "abc@gmail.com",
+    phoneCountry: "+91",
+    phoneNumber: "9063811343"
+  },
+  address: {
+    country: "India",
+    city: "ong",
+    area: "mk donka",
+    placeOfResidence: "near post office",
+    province: "house-no-9876"
   }
 }]]></ee:set-payload>
             </ee:message>
