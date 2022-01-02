@@ -40,8 +40,6 @@
 						<applicationName>${application.name}</applicationName>
 						<objectStoreV2>true</objectStoreV2>
 						<properties>
-						<http.port>${port}</http.port>
-						<http.host>${host}</http.host>
 						<http.env>${env}</http.env>
 						<http.encryption>${encryption}</http.encryption>
 						<anypoint.platform.clientId>${clientId}</anypoint.platform.clientId>
