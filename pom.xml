@@ -40,7 +40,7 @@
 						<applicationName>${application.name}</applicationName>
 						<objectStoreV2>true</objectStoreV2>
 						<properties>
-						<http.env>${env}</http.env>
+						<http.env>${enviroment}</http.env>
 						<http.encryption>${encryption}</http.encryption>
 						<anypoint.platform.clientId>${clientId}</anypoint.platform.clientId>
 						<anypoint.platform.clientsecret>${clientsecret}</anypoint.platform.clientsecret>
