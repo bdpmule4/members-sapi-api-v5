@@ -1,0 +1,30 @@
+%dw 2.0
+
+type auto_2945c2bb_cbfb_41a9_9584_4fbf0f394472_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|
+    "X-Cms-TransactionId": String, 
+    "X-Cms-Channel": "WebAPI" | "Mobile", 
+    "X-Cms-OriginLanguage": "hindi" | "EN" | "tel", 
+    "X-Cms-OriginMarket": "USA" | "UK" | "India", 
+    clientId: String, 
+    clientscrect: String
+  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {|  |}, 
+  version: String, 
+  localAddress: String
+|}
+

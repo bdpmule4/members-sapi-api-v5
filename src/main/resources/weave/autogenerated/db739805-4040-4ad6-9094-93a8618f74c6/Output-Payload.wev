@@ -1,0 +1,29 @@
+%dw 2.0
+
+type auto_db739805_4040_4ad6_9094_93a8618f74c6_Output_Payload = {
+  firstName: String, 
+  lastName?: String, 
+  occupation?: String, 
+  address: {
+    area: String, 
+    country: String, 
+    province: String, 
+    city: String, 
+    placeOfResidence: String, 
+    _?: Any
+  }, 
+  gender: "female" | "male", 
+  identity: {
+    password: String, 
+    phoneNumber: String, 
+    email: String, 
+    phoneCountry: String, 
+    _?: Any
+  }, 
+  preferredName: String, 
+  title: "mr" | "mrs", 
+  maritalStatus?: "signal" | "married", 
+  registrationChannel: String, 
+  _?: Any
+}
+

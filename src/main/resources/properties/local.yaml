@@ -1,0 +1,7 @@
+http:
+ listner:
+  host: "localhost"
+  port: "8091"
+  
+sfdc:
+ username: "salesforcetrianing@capital.com"

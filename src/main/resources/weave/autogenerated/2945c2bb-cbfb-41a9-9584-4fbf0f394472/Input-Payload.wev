@@ -1,0 +1,13 @@
+%dw 2.0
+
+type auto_2945c2bb_cbfb_41a9_9584_4fbf0f394472_Input_Payload = {
+  msg: String, 
+  code: Number, 
+  data: {
+    memberId: String, 
+    _?: Any
+  }, 
+  success: String, 
+  _?: Any
+}
+

@@ -1,0 +1,7 @@
+%dw 2.0
+
+type auto_9cfb88fa_f881_4702_b870_a7cc491c89e9_Output_Payload = {
+  membersList: Array<{    firstName: String,     lastName?: String,     occupation?: String,     address: {      area: String,       country: String,       province: String,       city: String,       placeOfResidence: String,       _?: Any    },     gender: "female" | "male",     identity: {      password: String,       phoneNumber: String,       email: String,       phoneCountry: String,       _?: Any    },     preferredName: String,     title: "mr" | "mrs",     maritalStatus?: "signal" | "married",     registrationChannel: String,     _?: Any  }>, 
+  _?: Any
+}
+

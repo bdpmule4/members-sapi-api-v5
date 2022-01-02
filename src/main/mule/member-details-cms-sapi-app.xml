@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
-    <http:listener-config name="member-details-cms-sapi-app-httpListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="8081" />
-    </http:listener-config>
-    <apikit:config name="member-details-cms-sapi-app-config" api="member-details-cms-sapi-app.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-    <flow name="member-details-cms-sapi-app-main">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+    <sub-flow name="member-details-cms-sapi-appSub_Flow" doc:id="017b20a3-62d3-442d-afc0-598f6d72b9e1" >
+		<ee:transform doc:name="Transform Message" doc:id="4707f458-3689-4579-ba97-3ffbf6ff55ef" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="requesturiparams" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.uriParmas]]></ee:set-variable>
+				<ee:set-variable variableName="requestqueryparams" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.queryPrams]]></ee:set-variable>
+				<ee:set-variable variableName="requestheader" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.headers]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+	<flow name="member-details-cms-sapi-app-main">
         <http:listener config-ref="member-details-cms-sapi-app-httpListenerConfig" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers>#[vars.outboundHeaders default {}]</http:headers>
@@ -15,85 +32,8 @@
             </http:error-response>
         </http:listener>
         <apikit:router config-ref="member-details-cms-sapi-app-config" />
-        <error-handler>
-            <on-error-propagate type="APIKIT:BAD_REQUEST">
-                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Bad request"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">400</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-            <on-error-propagate type="APIKIT:NOT_FOUND">
-                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Resource not found"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-            <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
-                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Method not allowed"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">405</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-            <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
-                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Not acceptable"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">406</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-            <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
-                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Unsupported media type"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">415</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-            <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
-                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Not Implemented"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">501</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
+        <error-handler ref="Error_Handler">
+            
         </error-handler>
     </flow>
     <flow name="member-details-cms-sapi-app-console">
@@ -107,24 +47,13 @@ output application/json
             </http:error-response>
         </http:listener>
         <apikit:console config-ref="member-details-cms-sapi-app-config" />
-        <error-handler>
-            <on-error-propagate type="APIKIT:NOT_FOUND">
-                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Resource not found"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
+        <error-handler ref="Error_Handler">
+            
         </error-handler>
     </flow>
     <flow name="patch:\members\(members):application\json:member-details-cms-sapi-app-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+        <flow-ref doc:name="initalize-Flow Reference" doc:id="89cc6b14-4988-4a14-b542-25eb6277e8e3" name="member-details-cms-sapi-appSub_Flow"/>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
             <ee:variables>
                 <ee:set-variable variableName="members">attributes.uriParams.'members'</ee:set-variable>
             </ee:variables>
@@ -144,41 +73,17 @@ output application/json
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="c4a1962d-4bd5-4424-bb95-f218b7086511" name="patch-members-implementation-flowFlow"/>
     </flow>
     <flow name="get:\members:member-details-cms-sapi-app-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  firstName: "sghfg",
-  lastName: "fgdf",
-  maritalStatus: "married",
-  title: "mr",
-  occupation: "empty",
-  gender: "male",
-  preferredName: "bvd",
-  registrationChannel: "WFC_ER",
-  identity: {
-    password: "paee",
-    email: "abc@gmail.com",
-    phoneCountry: "+91",
-    phoneNumber: "9063811343"
-  },
-  address: {
-    country: "India",
-    city: "ong",
-    area: "mk donka",
-    placeOfResidence: "near post office",
-    province: "house-no-9876"
-  }
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="initalize-Flow Reference" doc:id="3871b18c-49ab-42f9-9f03-f8d7c8d960c6" name="member-details-cms-sapi-appSub_Flow"/>
+		<logger level="INFO" doc:name="Request-recived-Logger" doc:id="c4b4094b-3e97-452c-92b7-c1bd57cd7822" message='Request-Recived-for-get-member-SAPI-for-transactionid ::#[vars.requestheader."x-cms-transactionid"]'/>
+		<flow-ref doc:name="Get-member-implementation-Flow Reference" doc:id="51c39a3b-f573-43ef-a224-93b5f4e96020" name="get-members-implementation-flowFlow"/>
+		<logger level="INFO" doc:name="Response-sent-Logger" doc:id="7d7cea39-02d4-403e-8eec-01063e5a50f5" message='Response-Sent-Get-member-Sapi-implementation-for-transactionId ::#[vars.requestheader."x-cms-transactionid"]'/>
     </flow>
     <flow name="get:\members\(members):member-details-cms-sapi-app-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+        <flow-ref doc:name="initalize-Flow Reference" doc:id="7a13bb91-b5fd-4c6d-bce6-ca2052abcc65" name="member-details-cms-sapi-appSub_Flow"/>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
             <ee:variables>
                 <ee:set-variable variableName="members">attributes.uriParams.'members'</ee:set-variable>
             </ee:variables>
@@ -213,26 +118,17 @@ output application/json
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="56245fec-478d-4fb7-b05e-3d8de45c3233" name="get-members-membersId-implementation-flowFlow"/>
     </flow>
     <flow name="post:\members:application\json:member-details-cms-sapi-app-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  msg: "successful operation",
-  code: 200,
-  data: {
-    memberId: "mn345"
-  },
-  success: "true"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="initalize-Flow Reference" doc:id="2fd4066d-ffed-4bd3-920c-c88fdd92531c" name="member-details-cms-sapi-appSub_Flow"/>
+		<logger level="INFO" doc:name="post-member-Request-Recived-Logger" doc:id="a54894e6-7b11-472f-8e9c-3fb6630fa6ff" message='Request-Recived-from-the-post-member-SAPI-for-transactionid::#[vars.requestheader."x-cms-transactionid"]'/>
+		<flow-ref doc:name="post-memebr-implementation-Flow Reference" doc:id="2ad7792f-4ec7-408b-96b4-f9865074bb73" name="post-members-implementation-flowFlow"/>
+		<logger level="INFO" doc:name="post-members-Response-recived-Logger" doc:id="a159ffc4-d038-4d55-98b2-40c48540360c" message='Response-sent-to-post-member-SAPI-for-transactionid::#[vars.requestheader."x-cms-transactionid"]'/>
     </flow>
     <flow name="post:\members\sync:application\json:member-details-cms-sapi-app-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+        <flow-ref doc:name="initalize-Flow Reference" doc:id="5bd5b92b-3bf7-4413-8aa1-622d119be59f" name="member-details-cms-sapi-appSub_Flow"/>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -247,5 +143,6 @@ output application/json
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="47059fa0-0522-438a-8577-7128a795ada3" name="post-members-sync-implementation-flowFlow"/>
     </flow>
 </mule>
