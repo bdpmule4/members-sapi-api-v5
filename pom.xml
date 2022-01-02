@@ -41,7 +41,7 @@
 						<objectStoreV2>true</objectStoreV2>
 						<properties>
 						<env>${enviroment}</env>
-						<encryption>${encryptionkey}</encryption>
+						<encryptionkey>${encryption}</encryptionkey>
 						<anypoint.platform.clientId>${clientId}</anypoint.platform.clientId>
 						<anypoint.platform.clientsecret>${clientsecret}</anypoint.platform.clientsecret>
 						</properties>
