@@ -83,42 +83,17 @@ output application/json
     </flow>
     <flow name="get:\members\(members):member-details-cms-sapi-app-config">
         <flow-ref doc:name="initalize-Flow Reference" doc:id="7a13bb91-b5fd-4c6d-bce6-ca2052abcc65" name="member-details-cms-sapi-appSub_Flow"/>
-		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
-            <ee:variables>
-                <ee:set-variable variableName="members">attributes.uriParams.'members'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
+		<ee:transform doc:name="Transform Message" doc:id="883a50ac-07fc-46ac-a0eb-64912d545de3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  firstName: "sghfg",
-  lastName: "fgdf",
-  maritalStatus: "married",
-  title: "mr",
-  occupation: "empty",
-  gender: "male",
-  preferredName: "bvd",
-  registrationChannel: "WFC_ER",
-  identity: {
-    password: "paee",
-    email: "abc@gmail.com",
-    phoneCountry: "+91",
-    phoneNumber: "9063811343"
-  },
-  address: {
-    country: "India",
-    city: "ong",
-    area: "mk donka",
-    placeOfResidence: "near post office",
-    province: "house-no-9876"
-  }
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
-		<flow-ref doc:name="Flow Reference" doc:id="56245fec-478d-4fb7-b05e-3d8de45c3233" name="get-members-membersId-implementation-flowFlow"/>
+attributes.uriParams.members]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Request-Response-Logger" doc:id="565113b9-0401-438f-8d8b-3fe93d4a288b" message='Request-Resonse-for-Get-members-{membersId}-for-transactionid ::#[vars.requestheader."x-cms-transactionid"]'/>
+		<flow-ref doc:name="Get-members-membersId-Flow Reference" doc:id="56245fec-478d-4fb7-b05e-3d8de45c3233" name="get-members-membersId-implementation-flowFlow"/>
+		<logger level="INFO" doc:name="Response-sent-Logger" doc:id="6fc060dd-6eb6-4856-aea8-91e2ebb51fac" message='Response-sent-Get-Member-MembersId-Sapi-for-trransactionid ::#[vars.requestheader."x-cms-transactionid"]'/>
     </flow>
     <flow name="post:\members:application\json:member-details-cms-sapi-app-config">
         <flow-ref doc:name="initalize-Flow Reference" doc:id="2fd4066d-ffed-4bd3-920c-c88fdd92531c" name="member-details-cms-sapi-appSub_Flow"/>
