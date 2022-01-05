@@ -6,3 +6,8 @@ http:
   
 sfdc:
  username: "salesforcetrianing@capital.com"
+ 
+db:
+ host: "remotemysql.com"
+ port: "3306"
+ username: "CR6kH2PVbs"

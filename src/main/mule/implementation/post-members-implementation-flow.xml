@@ -48,5 +48,6 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<error-handler ref="process_Error_Handler" />
 	</flow>
 </mule>

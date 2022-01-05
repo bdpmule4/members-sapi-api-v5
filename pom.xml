@@ -23,6 +23,14 @@
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
 				<version>3.3.5</version>
+				<configuration>
+					<sharedLibraries>
+						<sharedLibrary>
+							<groupId>mysql</groupId>
+							<artifactId>mysql-connector-java</artifactId>
+						</sharedLibrary>
+					</sharedLibraries>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
@@ -40,10 +48,10 @@
 						<applicationName>${application.name}</applicationName>
 						<objectStoreV2>true</objectStoreV2>
 						<properties>
-						<env>${enviroment}</env>
-						<encryptionkey>${encryption}</encryptionkey>
-						<anypoint.platform.clientId>${clientId}</anypoint.platform.clientId>
-						<anypoint.platform.clientsecret>${clientsecret}</anypoint.platform.clientsecret>
+							<env>${enviroment}</env>
+							<encryptionkey>${encryption}</encryptionkey>
+							<anypoint.platform.clientId>${clientId}</anypoint.platform.clientId>
+							<anypoint.platform.clientsecret>${clientsecret}</anypoint.platform.clientsecret>
 						</properties>
 					</cloudHubDeployment>
 				</configuration>
@@ -81,6 +89,17 @@
 			<artifactId>mule-salesforce-connector</artifactId>
 			<version>10.13.0</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-db-connector</artifactId>
+			<version>1.10.4</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.48</version>
 		</dependency>
 	</dependencies>
 

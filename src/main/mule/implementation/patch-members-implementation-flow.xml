@@ -1,9 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
 	<flow name="patch-members-implementation-flowFlow" doc:id="84bdbb0a-c044-46ed-befa-6043c0cd4aef" >
-		<logger level="INFO" doc:name="Logger" doc:id="18630a39-c2c2-4353-a500-a31967853b04" />
+		<ee:transform doc:name="Transform Message" doc:id="2a228689-2b9b-4b01-b135-b90378426803" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[{
+Name:attributes.uriParams.members,
+firstName__c:payload.firstName,
+lastName__c:payload.lastName,
+maritalStatus__c:payload.maritalStatus,
+title__c:payload.title,
+gender__c:payload.gender,
+occupation__c:payload.occupation,
+registrationChannel__c:payload.registrationChannel,
+preferredName__c:payload.preferredName,
+password__c:payload.identity.password,
+phoneCountry__c:payload.identity.phoneCountry,
+phoneNumber__c:payload.identity.phoneNumber,
+email__c:payload.identity.email,
+area__c:payload.address.area,
+city__c:payload.address.city,
+country__c:payload.address.country,
+province__c:payload.address.province,
+placeOfResidence__c:payload.address.placeOfResidence
+}]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:upsert objectType="member__c" externalIdFieldName="Name" doc:name="Upsert" doc:id="7fa1eff8-f28b-4c83-a5f8-aeec2ced3cfb" config-ref="Salesforce_Config"/>
+		<ee:transform doc:name="Transform Message" doc:id="8e011942-549c-427f-aceb-653fad60eaae" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  msg: "successful operation",
+  code: 200,
+  data: {
+    memberId: payload.items[0].id
+  },
+  success: "true"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler ref="process_Error_Handler" />
 	</flow>
 </mule>

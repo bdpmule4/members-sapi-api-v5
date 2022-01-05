@@ -3,7 +3,30 @@
 <mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<error-handler name="process_Error_Handler" doc:id="25dab3c1-61b7-4887-aee3-5a68857ebacb" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="1824c3ad-1de7-4684-a33d-f520caae1d29" type="DB:CONNECTIVITY">
+			<ee:transform doc:name="Transform Message" doc:id="21291046-fa0b-43c8-9392-89839d0fbe2f" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"msg":"failed operation",
+	code : 402,
+	success: false,
+	error:
+	{
+		"type":"DB Connection error",
+		"title":"Invalid Request",
+		details: "unable to connect the database"
+	}		
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>
+	</error-handler>
 	<error-handler name="Error_Handler" doc:id="f66fd7c6-18ef-4a0f-af0c-b40fe9317dd3" >
 	<on-error-propagate type="APIKIT:BAD_REQUEST">
                 <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
@@ -11,10 +34,20 @@
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Bad request"}]]></ee:set-payload>
+{
+	"msg":"failed operation",
+	code : 400,
+	success: false,
+	error:
+	{
+		"type":"Bad Request",
+		"title":"Bad Request",
+		details: "The input contains the invalid data "
+	}		
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">400</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -24,10 +57,20 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Resource not found"}]]></ee:set-payload>
+{
+	"msg":"failed operation",
+	code : 401,
+	success: false,
+	error:
+	{
+		"type":"API KIT Not Found",
+		"title":"APi KIt error",
+		details: "The uri requested is invalid or the resource does not exists"
+	}		
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -37,10 +80,20 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Method not allowed"}]]></ee:set-payload>
+{
+	"msg":"failed operation",
+	code : 401,
+	success: false,
+	error:
+	{
+		"type":"Method Not Allowed",
+		"title":"method Not Allowed",
+		details:"The enter the method does not exist"
+	}		
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">405</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[405]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -50,10 +103,20 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Not acceptable"}]]></ee:set-payload>
+{
+	"msg":"failed operation",
+	code : 404,
+	success: false,
+	error:
+	{
+		"type":"unauthorizedr",
+		"title":"unauthorized",
+		details: "unable to frtch the data"
+	}		
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">406</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[406]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -63,10 +126,20 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Unsupported media type"}]]></ee:set-payload>
+{
+	"msg":"failed operation",
+	code : 405,
+	success: false,
+	error:
+	{
+		"type":"API KIt Not supported",
+		"title":"API Not supported",
+		details: "Enter the correct APikit unsupported-media-type"
+	}		
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">415</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -76,12 +149,44 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Not Implemented"}]]></ee:set-payload>
+{
+	"msg":"failed operation",
+	code : 400,
+	success: false,
+	error:
+	{
+		"type":"unauthorizedr",
+		"title":"unauthorized",
+		details: "unable to fetch the data"
+	}		
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">501</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[501]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
-            </on-error-propagate>
-	</error-handler>
+            
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="82ae96ee-d5f3-4899-8928-9284f0519642" type="ANY">
+			<ee:transform doc:name="Transform Message" doc:id="64145024-8ae1-41b3-9dfe-0ae5b3541362" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"msg":"failed operation",
+	code : 500,
+	success: false,
+	error:
+	{
+		"type":"All Errors",
+		"title":"undefied errors",
+		details: "to fetch the all server errors"
+	}		
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>
+	
+</error-handler>
 </mule>

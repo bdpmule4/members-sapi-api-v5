@@ -2,3 +2,7 @@ sfdc:
  security:
   token: "![5Lwwkg2y79jS2YNe3ln5BI+/+PL/Qgox5Pf0VivCSCE=]"
   password: "![dcZ2HL9++d62XzGACqFRsA==]"
+  
+db:
+ security:
+  password: "![AtS6luIasQ3M7A/uGL7aZQ==]"

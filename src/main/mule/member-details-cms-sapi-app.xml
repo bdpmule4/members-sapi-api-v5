@@ -58,22 +58,9 @@ attributes.headers]]></ee:set-variable>
                 <ee:set-variable variableName="members">attributes.uriParams.'members'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  msg: "successful operation",
-  code: 200,
-  data: {
-    memberId: "mn345"
-  },
-  success: "true"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
-		<flow-ref doc:name="Flow Reference" doc:id="c4a1962d-4bd5-4424-bb95-f218b7086511" name="patch-members-implementation-flowFlow"/>
+        <logger level="INFO" doc:name="request-recived-Logger" doc:id="1db7fe06-bc97-4032-917a-3905a85b9f24" message='respnse-recived=patch-member-for-transactionid ::#[vars.requestheader."x-cms-transactionid"]'/>
+		<flow-ref doc:name="patch-member-Flow Reference" doc:id="c4a1962d-4bd5-4424-bb95-f218b7086511" name="patch-members-implementation-flowFlow"/>
+		<logger level="INFO" doc:name="Response-sent-Logger" doc:id="61e3b2b3-2057-4a0f-bc31-1bdd160a0568" message='Respnse-sent-patch-member-for-transactionid ::#[vars.requestheader."x-cms-transactionid"]'/>
     </flow>
     <flow name="get:\members:member-details-cms-sapi-app-config">
         <flow-ref doc:name="initalize-Flow Reference" doc:id="3871b18c-49ab-42f9-9f03-f8d7c8d960c6" name="member-details-cms-sapi-appSub_Flow"/>
@@ -103,21 +90,8 @@ attributes.uriParams.members]]></ee:set-payload>
     </flow>
     <flow name="post:\members\sync:application\json:member-details-cms-sapi-app-config">
         <flow-ref doc:name="initalize-Flow Reference" doc:id="5bd5b92b-3bf7-4413-8aa1-622d119be59f" name="member-details-cms-sapi-appSub_Flow"/>
-		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  msg: "successful operation",
-  code: 200,
-  data: {
-    memberId: "mn345"
-  },
-  success: "true"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
-		<flow-ref doc:name="Flow Reference" doc:id="47059fa0-0522-438a-8577-7128a795ada3" name="post-members-sync-implementation-flowFlow"/>
+		<logger level="INFO" doc:name="Resquest-Recived-Logger" doc:id="04d3b533-2251-46c4-bcf4-9f23348abd94" message='Response-Recived-for-Post-Member-sync-for-transactionid ::#[vars.requestheader."x-cms-transactionid"]'/>
+		<flow-ref doc:name="post-member-sync-Flow Reference" doc:id="47059fa0-0522-438a-8577-7128a795ada3" name="post-members-sync-implementation-flowFlow"/>
+		<logger level="INFO" doc:name="Response-sent-Logger" doc:id="1e92a779-3d3a-4567-bd6a-486967e03f46" message='Response-sent-for-post-members-sync-for-transactionid ::#[vars.requestheader."x-cms-transactionid"]'/>
     </flow>
 </mule>
