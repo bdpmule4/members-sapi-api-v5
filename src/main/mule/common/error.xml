@@ -6,7 +6,7 @@
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<error-handler name="process_Error_Handler" doc:id="25dab3c1-61b7-4887-aee3-5a68857ebacb" >
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="1824c3ad-1de7-4684-a33d-f520caae1d29" type="DB:CONNECTIVITY">
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="1824c3ad-1de7-4684-a33d-f520caae1d29" type="ANY">
 			<ee:transform doc:name="Transform Message" doc:id="21291046-fa0b-43c8-9392-89839d0fbe2f" >
 				<ee:message >
 					<ee:set-payload ><![CDATA[%dw 2.0
